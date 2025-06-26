@@ -2,8 +2,9 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY target/application-0.0.1-SNAPSHOT.jar app.jar
+ARG WAR_FILE=target/*.war
+COPY ${WAR_FILE} app.war
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.war"]
