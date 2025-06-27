@@ -1,0 +1,26 @@
+services:
+  test-db:
+    image: postgres:16
+    container_name: todo-test-db
+    environment:
+      POSTGRES_DB: todo-postgres
+      POSTGRES_USER: todo-postgres
+      POSTGRES_PASSWORD: todo-postgres
+    ports:
+      - "5432:5432"
+
+  test-app:
+    build:
+      context: ..
+      dockerfile: docker-test/Dockerfile
+    image: todo-test-app:latest
+    container_name: todo-test-app
+    depends_on:
+      - test-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://test-db:5432/todo-postgres
+      SPRING_DATASOURCE_USERNAME: todo-postgres
+      SPRING_DATASOURCE_PASSWORD: todo-postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"

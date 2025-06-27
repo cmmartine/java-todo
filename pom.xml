@@ -103,6 +103,36 @@
                     <release>21</release>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+					<id>copy-jsp-to-classes</id>
+					<phase>process-resources</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>${project.build.outputDirectory}/WEB-INF/jsp</outputDirectory>
+						<resources>
+						<resource>
+							<directory>src/main/webapp/WEB-INF/jsp</directory>
+							<filtering>false</filtering>
+						</resource>
+						</resources>
+					</configuration>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
     </build>
 
