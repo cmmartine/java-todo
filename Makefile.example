@@ -1,0 +1,14 @@
+# To use this file:
+#
+#   % ln -s Makefile.example Makefile
+RUN_ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+
+up:
+docker-compose up
+
+down:
+docker-compose down
+
+build:
+docker-compose build
+

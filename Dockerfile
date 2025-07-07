@@ -1,10 +1,7 @@
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jdk
 
-WORKDIR /app
+RUN apt-get update && apt-get -y upgrade
 
-ARG WAR_FILE=target/*.war
-COPY ${WAR_FILE} app.war
+WORKDIR /todo-app
 
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.war"]
+ENTRYPOINT [ "./mvnw", "spring-boot:run" ]
