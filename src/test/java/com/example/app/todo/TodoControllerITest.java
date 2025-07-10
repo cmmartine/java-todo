@@ -1,6 +1,8 @@
 package com.example.app.todo;
 
 import com.example.app.Application;
+import com.example.app.todo.repository.TodoRepository;
+import com.example.app.todo.model.Todo;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +24,9 @@ public class TodoControllerITest {
   @Autowired
   private TestRestTemplate template;
 
+  @Autowired
+  private TodoRepository todoRepository;
+
   @Test
   public void createTodo_andGetTodos_returnsTodosList() throws Exception{
     template.postForEntity(
@@ -35,5 +40,28 @@ public class TodoControllerITest {
     );
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     assertThat(response.getBody()).contains("IntegrationTestTodo");
+  }
+
+  @Test
+  public void deleteTodo() throws Exception{
+    template.postForEntity(
+      "http://localhost:" + port + "/todos?text=toBeDeleted",
+      null,
+      String.class
+    );
+
+    Todo created = todoRepository.findAll().stream()
+      .filter(t -> "toBeDeleted".equals(t.getText()))
+      .findFirst()
+      .orElse(null);
+    assertThat(created).isNotNull();
+
+    template.postForEntity(
+      "http://localhost:" + port + "/delete_todo?id=" + String.valueOf(created.getId()),
+      null,
+      String.class
+    );
+
+    assertThat(todoRepository.findById(created.getId())).isEmpty();
   }
 }
