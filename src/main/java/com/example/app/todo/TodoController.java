@@ -13,6 +13,11 @@ public class TodoController {
   @Autowired
   private TodoRepository todoRepository;
 
+  @GetMapping("/")
+  public String redirectToTodos() {
+    return "redirect:/todos";
+  }
+
   @GetMapping("/todos")
   public String getTodos(Model model) {
     model.addAttribute("todos", todoRepository.findAll());
@@ -22,6 +27,14 @@ public class TodoController {
   @PostMapping("/todos")
   public String createTodo(@RequestParam String text) {
     todoRepository.save(new Todo(text));
+    return "redirect:/todos";
+  }
+
+  @PostMapping("/delete_todo")
+  public String deleteTodo(@RequestParam Long id) {
+    // Obviously not safe, would need to add user log in/auth
+    Todo todo = todoRepository.getReferenceById(id);
+    todoRepository.delete(todo);
     return "redirect:/todos";
   }
 }
