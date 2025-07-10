@@ -1,8 +1,6 @@
-FROM maven:3.9.6-eclipse-temurin-21
+FROM eclipse-temurin:21-jdk
 
-WORKDIR /app
-
-COPY . .
+WORKDIR /todo-test-app
 
 CMD [ "./mvnw", "clean", "test" ]
 # CMD ["./mvnw", "spring-boot:run", "-DskipTests"]
