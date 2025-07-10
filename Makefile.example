@@ -3,8 +3,13 @@
 #   % ln -s Makefile.example Makefile
 RUN_ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
+# Might need to run before: sudo chown -R "${USER:-$(id -un)}" .
 run:
+	docker-compose up -d
 	./mvnw spring-boot:run
+
+down:
+	docker-compose down
 
 all-tests:
 	cd ./docker-test && docker-compose up --abort-on-container-exit --exit-code-from test-app

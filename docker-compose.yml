@@ -10,21 +10,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  app:
-    build: ./
-    image: todo-app:latest
-    container_name: todo-app
-    depends_on:
-      - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/todo-postgres
-      SPRING_DATASOURCE_USERNAME: todo-postgres
-      SPRING_DATASOURCE_PASSWORD: todo-postgres
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    ports:
-      - "8080:8080"
-    volumes:
-      - .:/todo-app
+  # app:
+  #   build: ./
+  #   image: todo-app:latest
+  #   container_name: todo-app
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/todo-postgres
+  #     SPRING_DATASOURCE_USERNAME: todo-postgres
+  #     SPRING_DATASOURCE_PASSWORD: todo-postgres
+  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - .:/todo-app
 
 volumes:
   pgdata:
